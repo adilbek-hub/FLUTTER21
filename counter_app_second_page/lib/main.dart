@@ -48,11 +48,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  var count = 0;
+  int count = 0;
+
+  void a() {
+    if (count == 10) {
+      count = 0;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: const Center(child: Text('Тапшырма 1')),
@@ -61,7 +68,7 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Бул узун контейнер
+            if (count == 10 || count == 35) Text('Flutter $count'),
             Container(
               width: 325,
               height: 44,
@@ -70,7 +77,7 @@ class _HomePageState extends State<HomePage> {
                   borderRadius: BorderRadius.circular(10)),
               child: Center(
                   child: Text(
-                'Cан: $count',
+                '$count',
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
@@ -130,7 +137,10 @@ class _HomePageState extends State<HomePage> {
               ),
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const SecondPage();
+                  return SecondPage(
+                    count: count,
+                    text: 'Flutter',
+                  );
                 }));
               },
               child: const Text(
@@ -143,14 +153,6 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      // floatingActionButton: FloatingActionButton.extended(
-      //   onPressed: () {
-      //     Navigator.push(context, MaterialPageRoute(builder: (context) {
-      //       return const SecondPage();
-      //     }));
-      //   },
-      //   label: const Text("To Second Page"),
-      // ),
     );
   }
 }
