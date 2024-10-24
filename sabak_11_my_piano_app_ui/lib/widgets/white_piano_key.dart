@@ -11,8 +11,8 @@ class WhitePianoKey extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         shadowColor: Colors.greenAccent,
         elevation: 3,
-        shape: RoundedRectangleBorder(
-          borderRadius: const BorderRadius.only(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
             topLeft: Radius.circular(5),
             topRight: Radius.circular(5),
           ),
