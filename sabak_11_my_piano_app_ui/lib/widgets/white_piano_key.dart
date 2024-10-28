@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 class WhitePianoKey extends StatelessWidget {
   const WhitePianoKey({
     super.key,
+    required this.text,
+    this.onPressed,
   });
-
+  final String text;
+  final void Function()? onPressed;
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -19,21 +22,18 @@ class WhitePianoKey extends StatelessWidget {
         ),
         minimumSize: const Size(54.91, 217.93),
       ),
-      onPressed: () {},
-      child: const Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
+      onPressed: onPressed,
+      child: Column(
         children: [
-          const Center(
-            child: Text(
-              'f1',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 19.6,
-                fontWeight: FontWeight.w400,
-              ),
+          SizedBox(height: 160),
+          Text(
+            text,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 19.6,
+              fontWeight: FontWeight.w400,
             ),
           ),
-          SizedBox(height: 20),
         ],
       ),
     );
