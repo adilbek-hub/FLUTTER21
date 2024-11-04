@@ -29,9 +29,9 @@ class _MyHomePageState extends State<MyHomePage> {
     }
     if (questionNumber > 4) {
       showTestDialog(context);
-      questionNumber = 0;
-      tuuraJoop = 0;
-      tuuraEmesoop = 0;
+      questionNumber = 4;
+      tuuraJoop = 4;
+      tuuraEmesoop = 4;
     }
 
     setState(() {});
