@@ -18,7 +18,6 @@ class _MyHomePageState extends State<MyHomePage> {
     if (quizeList[questionNumber].answer == true ||
         quizeList[questionNumber].answer == false) {
       tuuraJoop++;
-
       questionNumber++;
       print('tuuraJoop ${tuuraJoop.toInt()}');
     } else if (quizeList[questionNumber].answer == true ||
@@ -27,11 +26,9 @@ class _MyHomePageState extends State<MyHomePage> {
       questionNumber++;
       print('tuuraEmesoop${tuuraEmesoop.toInt()}');
     }
-    if (questionNumber > 4) {
-      showTestDialog(context);
+    if (questionNumber >= quizeList.length) {
       questionNumber = 4;
-      tuuraJoop = 4;
-      tuuraEmesoop = 4;
+      showTestDialog(context);
     }
 
     setState(() {});
@@ -46,7 +43,11 @@ class _MyHomePageState extends State<MyHomePage> {
             actions: [
               ElevatedButton(
                   onPressed: () {
+                    questionNumber = 0;
+                    tuuraJoop = 0;
+                    tuuraEmesoop = 0;
                     Navigator.pop(context);
+                    setState(() {});
                   },
                   child: Text('Баштоо'))
             ],
