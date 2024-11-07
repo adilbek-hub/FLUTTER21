@@ -10,6 +10,8 @@ Quize quize3 = Quize(question: "Джеки Чан Ганг-Конгтун тур
 Quize quize4 = Quize(
     question: "Dart Майкрасофт тарабынан иштелип чыкканбы", answer: false);
 Quize quize5 = Quize(question: "Кумшекер таттуу", answer: true);
+Quize quize6 = Quize(question: "Кумшекер таттуу эмес", answer: false);
+Quize quize7 = Quize(question: "Туз таттуу", answer: true);
 
 List<Quize> quizeList = [
   quize1,
@@ -17,4 +19,6 @@ List<Quize> quizeList = [
   quize3,
   quize4,
   quize5,
+  quize6,
+  quize7,
 ];

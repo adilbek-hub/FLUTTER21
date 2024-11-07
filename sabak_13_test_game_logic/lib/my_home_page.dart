@@ -14,20 +14,24 @@ class _MyHomePageState extends State<MyHomePage> {
   int questionNumber = 0;
   int tuuraJoop = 0;
   int tuuraEmesoop = 0;
+  List allAnswers = [];
+
   questionAnswer() {
     if (quizeList[questionNumber].answer == true ||
         quizeList[questionNumber].answer == false) {
       tuuraJoop++;
       questionNumber++;
+      allAnswers.add(true);
       print('tuuraJoop ${tuuraJoop.toInt()}');
     } else if (quizeList[questionNumber].answer == true ||
         quizeList[questionNumber].answer == false) {
       tuuraEmesoop++;
       questionNumber++;
+      allAnswers.add(false);
       print('tuuraEmesoop${tuuraEmesoop.toInt()}');
     }
     if (questionNumber >= quizeList.length) {
-      questionNumber = 4;
+      questionNumber = quizeList.length - 1;
       showTestDialog(context);
     }
 
@@ -46,6 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     questionNumber = 0;
                     tuuraJoop = 0;
                     tuuraEmesoop = 0;
+                    allAnswers.clear();
                     Navigator.pop(context);
                     setState(() {});
                   },
@@ -81,6 +86,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 questionAnswer();
               },
             ),
+            Row(
+                children: allAnswers.map((e) {
+              return Icon(e ? Icons.done : Icons.close);
+            }).toList()),
           ],
         ),
       ),
