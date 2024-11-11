@@ -66,6 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     tuuraEmesoop = 0;
                     allAnswers.clear();
                     Navigator.pop(context);
+
                     setState(() {});
                   },
                   child: Text('Баштоо'))
