@@ -14,21 +14,17 @@ class _MyHomePageState extends State<MyHomePage> {
   int questionNumber = 0;
   int tuuraJoop = 0;
   int tuuraEmesoop = 0;
-  List allAnswers = [];
+  List<bool> allAnswers = [];
 
-  questionAnswer() {
-    if (quizeList[questionNumber].answer == true ||
-        quizeList[questionNumber].answer == false) {
+  questionAnswer(bool isTrue) {
+    if (quizeList[questionNumber].answer == isTrue) {
       tuuraJoop++;
       questionNumber++;
       allAnswers.add(true);
-      print('tuuraJoop ${tuuraJoop.toInt()}');
-    } else if (quizeList[questionNumber].answer == true ||
-        quizeList[questionNumber].answer == false) {
+    } else {
       tuuraEmesoop++;
       questionNumber++;
       allAnswers.add(false);
-      print('tuuraEmesoop${tuuraEmesoop.toInt()}');
     }
     if (questionNumber >= quizeList.length) {
       questionNumber = quizeList.length - 1;
@@ -43,7 +39,25 @@ class _MyHomePageState extends State<MyHomePage> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Hello'),
+            title: Row(
+              children: [
+                Text(
+                  'Туура жооп: $tuuraJoop',
+                  style: TextStyle(
+                    color: Colors.green,
+                    fontSize: 13,
+                  ),
+                ),
+                SizedBox(width: 5),
+                Text(
+                  'Ката жооп: $tuuraEmesoop',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 13,
+                  ),
+                ),
+              ],
+            ),
             actions: [
               ElevatedButton(
                   onPressed: () {
@@ -72,26 +86,33 @@ class _MyHomePageState extends State<MyHomePage> {
             Questions(
               text: quizeList[questionNumber].question,
             ),
+            SizedBox(height: 50),
             CustomButton(
                 text: 'Туура',
                 color: Color(0xff4cb050),
                 onPressed: () {
-                  questionAnswer();
+                  questionAnswer(true);
                 }),
             const SizedBox(height: 30),
             CustomButton(
               text: 'Туура эмес',
               color: Color(0xffef443a),
               onPressed: () {
-                questionAnswer();
+                questionAnswer(false);
               },
             ),
-            Row(
-                children: allAnswers.map((e) {
-              return Icon(e ? Icons.done : Icons.close);
-            }).toList()),
           ],
         ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Row(
+            children: allAnswers.map((e) {
+          return Icon(
+            e ? Icons.done : Icons.close,
+            color: e ? Colors.green : Colors.red,
+          );
+        }).toList()),
       ),
     );
   }

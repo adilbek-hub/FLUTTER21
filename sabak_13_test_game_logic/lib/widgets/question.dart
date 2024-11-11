@@ -9,16 +9,13 @@ class Questions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: 130),
-      child: Text(
-        textAlign: TextAlign.center,
-        text,
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 32,
-          fontWeight: FontWeight.w500,
-        ),
+    return Text(
+      textAlign: TextAlign.center,
+      text,
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 32,
+        fontWeight: FontWeight.w500,
       ),
     );
   }
