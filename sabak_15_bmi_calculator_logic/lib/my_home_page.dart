@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sabak_15_bmi_calculator_logic/methods/alert_dialog.dart';
+import 'package:sabak_15_bmi_calculator_logic/widgets/calculator.dart';
 import 'package:sabak_15_bmi_calculator_logic/widgets/height_conatiner.dart';
 import 'package:sabak_15_bmi_calculator_logic/widgets/male_female_conatiner.dart';
 import 'package:sabak_15_bmi_calculator_logic/widgets/weight_age_conatiner.dart';
@@ -12,6 +14,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bool isMale = false;
+  int height = 180;
+  int weight = 60;
+  int age = 28;
   void maleFun() {
     setState(() {});
     isMale = !isMale;
@@ -32,42 +37,59 @@ class _MyHomePageState extends State<MyHomePage> {
                 MaleFemaleContainer(
                   onTap: () => maleFun(),
                   icon: Icons.male,
-                  text: 'male',
-                  iconColor: isMale ? Colors.white : Colors.red,
                   iconSize: isMale ? 68 : 100,
-                  stopPauseOnTap: isMale ? false : true,
+                  iconColor: isMale ? Colors.white : Colors.red,
+                  text: 'male',
+                  textColor: isMale ? const Color(0xffceccd2) : Colors.red,
                 ),
                 const SizedBox(width: 35),
                 MaleFemaleContainer(
                   onTap: () => maleFun(),
                   icon: Icons.female,
-                  text: 'female',
-                  iconColor: isMale ? Colors.red : Colors.white,
                   iconSize: isMale ? 100 : 68,
-                  stopPauseOnTap: isMale ? true : false,
+                  iconColor: isMale ? Colors.red : Colors.white,
+                  text: 'female',
+                  textColor: isMale ? Colors.red : const Color(0xffceccd2),
                 ),
               ],
             ),
-            SizedBox(height: 18),
+            const SizedBox(height: 18),
             HeightConatiner(
               text: 'height',
-              san: 180,
+              san: height,
               sm: 'sm',
+              widget: Slider.adaptive(
+                thumbColor: Color(0xffff0f65),
+                activeColor: Colors.white,
+                inactiveColor: Colors.grey,
+                min: 0,
+                max: 300,
+                value: height.toDouble(),
+                onChanged: (v) {
+                  height = v.toInt();
+                  setState(() {});
+                  print(height);
+                },
+              ),
             ),
-            SizedBox(height: 18),
+            const SizedBox(height: 18),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 WeightAgeConatiner(
+                  onPressedRemoveIcon: () => setState(() => weight--),
+                  onPressedAddIcon: () => setState(() => weight++),
                   text: 'weight',
-                  san: 60,
+                  san: weight,
                   iconAdd: Icons.add,
                   iconRemove: Icons.remove,
                 ),
                 SizedBox(width: 25),
                 WeightAgeConatiner(
+                  onPressedRemoveIcon: () => setState(() => age--),
+                  onPressedAddIcon: () => setState(() => age++),
                   text: 'age',
-                  san: 28,
+                  san: age,
                   iconAdd: Icons.add,
                   iconRemove: Icons.remove,
                 ),
@@ -76,20 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      bottomNavigationBar: Container(
-        height: 73,
-        color: Color(0xffff0565),
-        child: Center(
-          child: Text(
-            'CALCULATOR',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 22,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
-      ),
+      bottomNavigationBar: Calculator(weight: weight, height: height),
     );
   }
 

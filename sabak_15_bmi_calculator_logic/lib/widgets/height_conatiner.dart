@@ -6,10 +6,12 @@ class HeightConatiner extends StatelessWidget {
     required this.text,
     required this.san,
     required this.sm,
+    required this.widget,
   });
   final String text;
   final int san;
   final String sm;
+  final Widget widget;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -55,14 +57,7 @@ class HeightConatiner extends StatelessWidget {
                 ),
               ],
             ),
-            Slider.adaptive(
-              thumbColor: Color(0xffff0f65),
-              activeColor: Colors.white,
-              inactiveColor: Colors.grey,
-              max: 230,
-              value: 180,
-              onChanged: (v) {},
-            )
+            widget,
           ],
         ),
       ),
