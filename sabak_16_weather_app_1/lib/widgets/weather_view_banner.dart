@@ -38,10 +38,10 @@ class WeatherViewBanner extends StatelessWidget {
                     ),
                     child: Image.asset(image),
                   ),
-                  SizedBox(width: 17.46),
+                  const SizedBox(width: 17.46),
                   Text(
                     text,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 12.7,
                       fontWeight: FontWeight.w400,
                     ),
