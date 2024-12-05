@@ -2,8 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:sabak_16_weather_app_1/contants.dart/app_text_styles.dart';
+import 'package:sabak_16_weather_app_1/contants.dart/liner_gradient.dart';
 import 'package:sabak_16_weather_app_1/server.dart';
 import 'package:http/http.dart' as http;
+import 'package:sabak_16_weather_app_1/widgets/slider_view.dart';
+import 'package:sabak_16_weather_app_1/widgets/weather_days_card.dart';
 import 'package:sabak_16_weather_app_1/widgets/weather_view_banner.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -49,90 +52,103 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Color(
           0xff66d8f1,
         ),
-        body: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [
-                Color(0xff66d8f1),
-                Color(
-                  0xff97eafc,
-                ),
-              ],
+        body: SingleChildScrollView(
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinerGradientColor.liner,
+            ),
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 31.5, vertical: 20.7),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Image.asset('assets/icons/search.png'),
+                      Image.asset('assets/icons/menu.png'),
+                    ],
+                  ),
+                  Text(
+                    'Bishkek,\nKyrgyzstan',
+                    style: AppTextStyles.lacotionStyle,
+                  ),
+                  Text(
+                    'Tue, Jun 30',
+                    style: AppTextStyles.dataStyle,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Image.asset(
+                        'assets/images/cludy.png',
+                        width: 250.16,
+                        height: 250.98,
+                        fit: BoxFit.fill,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                weatherInfo,
+                                style: AppTextStyles.tempStyle,
+                              ),
+                              Text(
+                                '\u2103',
+                                style: TextStyle(fontSize: 25),
+                              ),
+                            ],
+                          ),
+                          Text(
+                            'Rainy',
+                            style: AppTextStyles.tempNameStyle,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const WeatherViewBanner(
+                    image: 'assets/images/umbrella.png',
+                    text: 'RainFall',
+                    text2: '3cm',
+                  ),
+                  const WeatherViewBanner(
+                    image: 'assets/images/Vector.png',
+                    text: 'Wind',
+                    text2: '19km/h',
+                  ),
+                  const WeatherViewBanner(
+                    image: 'assets/images/Rectangle.png',
+                    text: 'Humidity',
+                    text2: '64%',
+                  ),
+                  const SliderView(),
+                ],
+              ),
             ),
           ),
-          child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 31.5, vertical: 20.7),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Image.asset('assets/icons/search.png'),
-                    Image.asset('assets/icons/menu.png'),
-                  ],
-                ),
-                Text(
-                  'Bishkek,\nKyrgyzstan',
-                  style: AppTextStyles.lacotionStyle,
-                ),
-                Text(
-                  'Tue, Jun 30',
-                  style: AppTextStyles.dataStyle,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Image.asset(
-                      'assets/images/cludy.png',
-                      width: 250.16,
-                      height: 250.98,
-                      fit: BoxFit.fill,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              weatherInfo,
-                              style: AppTextStyles.tempStyle,
-                            ),
-                            Text(
-                              '\u2103',
-                              style: TextStyle(fontSize: 25),
-                            ),
-                          ],
-                        ),
-                        Text(
-                          'Rainy',
-                          style: AppTextStyles.tempNameStyle,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                const WeatherViewBanner(
-                  image: 'assets/images/umbrella.png',
-                  text: 'RainFall',
-                  text2: '3cm',
-                ),
-                const WeatherViewBanner(
-                  image: 'assets/images/Vector.png',
-                  text: 'Wind',
-                  text2: '19km/h',
-                ),
-                const WeatherViewBanner(
-                  image: 'assets/images/Rectangle.png',
-                  text: 'Humidity',
-                  text2: '64%',
-                ),
-              ],
+        ),
+        bottomNavigationBar: Container(
+          decoration: const BoxDecoration(
+            gradient: LinerGradientColor.liner,
+          ),
+          child: SizedBox(
+            height: 98.99,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return WeatherDaysCard(
+                  text1: 'now',
+                  image: 'assets/images/icon (3).png',
+                  text2: '19 °',
+                );
+              },
+              itemCount: 10,
             ),
           ),
         ),

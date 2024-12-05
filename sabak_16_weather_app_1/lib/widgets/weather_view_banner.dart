@@ -18,9 +18,8 @@ class WeatherViewBanner extends StatelessWidget {
         height: 65.54,
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.25),
-          borderRadius: BorderRadius.circular(
-            17.25,
-          ),
+          borderRadius: BorderRadius.circular(17.25),
+          border: Border.all(color: Color(0xffbceffb), width: 0.86),
         ),
         child: Padding(
           padding: const EdgeInsets.only(left: 18.97, right: 48.29),
