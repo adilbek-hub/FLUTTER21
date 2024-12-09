@@ -19,20 +19,33 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   String weatherInfo = "Маалымат жүктөлүүдө...";
   String sityNAme = "";
+  String countryN = "";
+  String weatherIcon = "";
+  String mainWeather = "";
+  int windWether = 0;
 
   void weatherFun() async {
     final url = Uri.parse(
-        'https://api.openweathermap.org/data/2.5/weather?q=osh,&appid=41aa18abb8974c0ea27098038f6feb1b');
+        'https://api.openweathermap.org/data/2.5/weather?q=los+angeles,&appid=41aa18abb8974c0ea27098038f6feb1b');
     final response = await http.get(url);
     if (response.statusCode == 200) {
       print(response.body);
       final data = jsonDecode(response.body);
+
       final name = data["name"];
       final temp = data["main"]["temp"];
+      final countryName = data["sys"]["country"];
+      final icon = data["weather"][0]["icon"];
+      final main = data["weather"][0]["main"];
+      final wind = data["wind"]["speed"];
       final withKelvin = temp - 273.15;
       setState(() {
         weatherInfo = withKelvin.toStringAsFixed(0);
         sityNAme = name;
+        countryN = countryName;
+        weatherIcon = icon;
+        mainWeather = main;
+        windWether = wind;
       });
     } else {
       print(response.statusCode);
@@ -71,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ],
                   ),
                   Text(
-                    'Bishkek,\nKyrgyzstan',
+                    '$sityNAme,\n$countryN',
                     style: AppTextStyles.lacotionStyle,
                   ),
                   Text(
@@ -81,12 +94,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Image.asset(
-                        'assets/images/cludy.png',
-                        width: 250.16,
-                        height: 250.98,
-                        fit: BoxFit.fill,
-                      ),
+                      // Image.network(
+                      //   'https://openweathermap.org/img/wn/$weatherIcon@2x.png',
+                      //   width: 250.16,
+                      //   height: 250.98,
+                      //   fit: BoxFit.fill,
+                      // ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             ],
                           ),
                           Text(
-                            'Rainy',
+                            "mainWeather",
                             style: AppTextStyles.tempNameStyle,
                           ),
                         ],
@@ -117,10 +130,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     text: 'RainFall',
                     text2: '3cm',
                   ),
-                  const WeatherViewBanner(
+                  WeatherViewBanner(
                     image: 'assets/images/Vector.png',
                     text: 'Wind',
-                    text2: '19km/h',
+                    text2: "${windWether.toString()} k/h",
                   ),
                   const WeatherViewBanner(
                     image: 'assets/images/Rectangle.png',
