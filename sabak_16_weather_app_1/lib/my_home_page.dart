@@ -22,22 +22,22 @@ class _MyHomePageState extends State<MyHomePage> {
   String countryN = "";
   String weatherIcon = "";
   String mainWeather = "";
-  int windWether = 0;
+  double windWether = 0;
 
   void weatherFun() async {
     final url = Uri.parse(
-        'https://api.openweathermap.org/data/2.5/weather?q=los+angeles,&appid=41aa18abb8974c0ea27098038f6feb1b');
+        'https://api.openweathermap.org/data/2.5/weather?q=oymyakon,&appid=41aa18abb8974c0ea27098038f6feb1b');
     final response = await http.get(url);
     if (response.statusCode == 200) {
       print(response.body);
       final data = jsonDecode(response.body);
 
-      final name = data["name"];
-      final temp = data["main"]["temp"];
-      final countryName = data["sys"]["country"];
-      final icon = data["weather"][0]["icon"];
-      final main = data["weather"][0]["main"];
-      final wind = data["wind"]["speed"];
+      final name = data["name"] ?? "Белгисиз шаар";
+      final temp = data["main"]["temp"] ?? 0.0;
+      final countryName = data["sys"]["country"] ?? "Белгисиз өлкө";
+      final icon = data["weather"][0]["icon"] ?? "";
+      final main = data["weather"][0]["main"] ?? "Белгисиз аба-ырайы";
+      final wind = (data["wind"]["speed"] ?? 0.0).toDouble();
       final withKelvin = temp - 273.15;
       setState(() {
         weatherInfo = withKelvin.toStringAsFixed(0);
@@ -60,7 +60,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    //SafeArea бул экрандын үстүн карартып береп
     return SafeArea(
+      // child бул SafeArea баласы
+      // Scaffold бул экрандын актай барагы
       child: Scaffold(
         backgroundColor: Color(
           0xff66d8f1,
@@ -92,36 +95,38 @@ class _MyHomePageState extends State<MyHomePage> {
                     style: AppTextStyles.dataStyle,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      // Image.network(
-                      //   'https://openweathermap.org/img/wn/$weatherIcon@2x.png',
-                      //   width: 250.16,
-                      //   height: 250.98,
-                      //   fit: BoxFit.fill,
-                      // ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                weatherInfo,
-                                style: AppTextStyles.tempStyle,
-                              ),
-                              Text(
-                                '\u2103',
-                                style: TextStyle(fontSize: 25),
-                              ),
-                            ],
-                          ),
-                          Text(
-                            "mainWeather",
-                            style: AppTextStyles.tempNameStyle,
-                          ),
-                        ],
+                      Expanded(
+                        child: Image.network(
+                          weatherIcon.isNotEmpty
+                              ? 'https://openweathermap.org/img/wn/$weatherIcon@4x.png'
+                              : 'assets/images/cludy.png',
+                          width: 250.16,
+                          height: 250.98,
+                        ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  weatherInfo,
+                                  style: AppTextStyles.tempStyle,
+                                ),
+                                Text(
+                                  '\u2103',
+                                  style: TextStyle(fontSize: 25),
+                                ),
+                              ],
+                            ),
+                            Text(
+                              "",
+                              style: AppTextStyles.tempNameStyle,
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
