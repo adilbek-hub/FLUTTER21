@@ -64,6 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return SafeArea(
       // child бул SafeArea баласы
       // Scaffold бул экрандын актай барагы
+
       child: Scaffold(
         backgroundColor: Color(
           0xff66d8f1,
