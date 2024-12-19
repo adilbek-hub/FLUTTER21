@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sabak_17_news_app_ui/constants/app_colors/app_bar_bgc.dart';
 import 'package:sabak_17_news_app_ui/features/data/oop.dart';
+import 'package:sabak_17_news_app_ui/features/data/service.dart';
+import 'package:sabak_17_news_app_ui/features/model/news_model.dart';
 import 'package:sabak_17_news_app_ui/mathods/my_app_bar.dart';
 import 'package:sabak_17_news_app_ui/widgets/news_card.dart';
 import 'package:sabak_17_news_app_ui/widgets/search_widget.dart';
@@ -19,10 +21,26 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Scaffold(
       backgroundColor: scaffoldColor,
       appBar: myAppBar(),
-      body: ListView.builder(
-          itemCount: newsList.length,
-          itemBuilder: (context, index) {
-            return NewsCard(index: index, newsList: newsList);
+      body: FutureBuilder<NewsModel?>(
+          future: NewsService().fetchData(),
+          builder: (BuildContext context, AsyncSnapshot<NewsModel?> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: const CircularProgressIndicator.adaptive());
+            } else if (snapshot.connectionState == ConnectionState.none) {
+              return Center(
+                child: Text('Сервер не работает'),
+              );
+            } else if (snapshot.connectionState == ConnectionState.done) {
+              return ListView.builder(
+                  itemCount: snapshot.data!.articles!.length,
+                  itemBuilder: (context, index) {
+                    final data = snapshot.data!.articles;
+                    return NewsCard(index: index, data: data);
+                  });
+            }
+            return Center(
+              child: Text('Белгисиз абал'),
+            );
           }),
       floatingActionButton: const SearchWidget(),
     ));
