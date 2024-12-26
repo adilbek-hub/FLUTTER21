@@ -11,7 +11,13 @@ class TextStyles {
     fontSize: 14,
     fontWeight: FontWeight.w500,
   );
+  static const TextStyle newsURLTextStyle = TextStyle(
+    color: Colors.blue,
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+  );
 }
 
 const titleStyle = TextStyles.titleStyle;
 const newsTextStyle = TextStyles.newsTextStyle;
+const newsURLTextStyle = TextStyles.newsURLTextStyle;

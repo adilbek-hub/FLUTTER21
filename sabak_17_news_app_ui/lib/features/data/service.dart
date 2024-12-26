@@ -8,6 +8,7 @@ class NewsService {
     final response = await dio.get(Api.data);
     if (response.statusCode == 200 || response.statusCode == 201) {
       final data = response.data;
+      print(data);
       return NewsModel.fromJson(data);
     }
     return null;
