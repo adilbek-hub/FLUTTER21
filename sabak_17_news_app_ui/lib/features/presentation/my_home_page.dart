@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:sabak_17_news_app_ui/constants/app_colors/app_bar_bgc.dart';
 import 'package:sabak_17_news_app_ui/features/data/oop.dart';
 import 'package:sabak_17_news_app_ui/features/data/service.dart';
@@ -25,14 +26,20 @@ class _MyHomePageState extends State<MyHomePage> {
           future: NewsService().fetchData(),
           builder: (BuildContext context, AsyncSnapshot<NewsModel?> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator.adaptive());
+              return const Center(
+                  child: SpinKitFadingCircle(
+                color: Colors.black,
+              ));
             } else if (snapshot.connectionState == ConnectionState.none) {
               return const Center(
                 child: Text('Сервер не работает'),
               );
             } else if (snapshot.connectionState == ConnectionState.done) {
               return RefreshIndicator(
-                onRefresh: () async {},
+                onRefresh: () async {
+                  await NewsService().fetchData();
+                  setState(() {});
+                },
                 child: ListView.builder(
                     itemCount: snapshot.data?.articles?.length,
                     itemBuilder: (context, index) {
