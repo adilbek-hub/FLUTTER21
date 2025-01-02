@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:sabak_18_capitals_test_game/countries_page.dart';
 import 'package:sabak_18_capitals_test_game/features/app_text.dart';
 import 'package:sabak_18_capitals_test_game/features/app_texts.dart';
 import 'package:sabak_18_capitals_test_game/features/model.dart';
+import 'package:sabak_18_capitals_test_game/theme/app_bgc.dart';
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
@@ -9,6 +11,7 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: scaffoldColor,
       appBar: myAppbar(),
       body: Column(
         children: [
@@ -22,7 +25,21 @@ class MyHomePage extends StatelessWidget {
                 crossAxisCount: 2,
                 children: List.generate(6, (index) {
                   final continent = continentsList[index];
-                  return CardWidget(continent.text);
+                  return CardWidget(
+                    onTap: () {
+                      if (continent.text == "Asia") {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return CountriesPage();
+                        }));
+                      } else {
+                        null;
+                      }
+                    },
+                    continent.text,
+                    continent.image,
+                    const Color(0xfff6f6f6),
+                  );
                 })),
           )
         ],
@@ -48,17 +65,34 @@ class MyHomePage extends StatelessWidget {
 
 class CardWidget extends StatelessWidget {
   const CardWidget(
-    this.text, {
+    this.text,
+    this.image,
+    this.color, {
     super.key,
+    this.onTap,
   });
-  final String text;
+  final String? text;
+  final String? image;
+  final void Function()? onTap;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      color: Colors.teal[400],
-      child: appText.title(text),
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        color: color,
+        child: Center(
+          child: Column(
+            spacing: 5,
+            children: [
+              appText.title(text ?? ""),
+              if (image != null) Image.asset(image!)
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
