@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:sabak_18_capitals_test_game/continents_page.dart';
+import 'package:sabak_18_capitals_test_game/features/model/continent_model.dart';
+import 'package:sabak_18_capitals_test_game/features/model/countries_model.dart';
 
-class CountriesPage extends StatelessWidget {
+class CountriesPage extends StatefulWidget {
   const CountriesPage({super.key});
 
+  @override
+  State<CountriesPage> createState() => _CountriesPageState();
+}
+
+class _CountriesPageState extends State<CountriesPage> {
+  Color buttonColor = Colors.blue;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,8 +49,8 @@ class CountriesPage extends StatelessWidget {
             backgroundColor: Colors.grey,
             valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
           ),
-          Text('Seoul'),
-          AssetsImage(image: 'assets/countries/seaul.jpg', size: 300),
+          Text(tests[0].question),
+          AssetsImage(image: tests[0].capitalImage, size: 300),
           Expanded(
             child: GridView.count(
                 primary: false,
@@ -50,12 +58,29 @@ class CountriesPage extends StatelessWidget {
                 crossAxisSpacing: 1.5,
                 mainAxisSpacing: 1.5,
                 crossAxisCount: 2,
-                children: List.generate(4, (index) {
+                children: List.generate(4, (int san) {
                   return CardWidget(
-                    onTap: () {},
-                    'Text',
-                    '',
-                    Colors.grey,
+                    onTap: () {
+                      setState(() {
+                        buttonColor =
+                            Colors.grey; // Кайра баштапкы түскө кайтуу
+                      });
+                    },
+                    onTapDown: (_) {
+                      setState(() {
+                        buttonColor = tests[0].answers[san].isTrue
+                            ? Colors.green
+                            : Colors.red;
+                      });
+                    },
+                    onTapCancel: () {
+                      setState(() {
+                        buttonColor = Colors
+                            .grey; // Басуу токтотулганда баштапкы түскө кайтуу
+                      });
+                    },
+                    tests[0].answers[san].answer,
+                    buttonColor: buttonColor,
                   );
                 })),
           )

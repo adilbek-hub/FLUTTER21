@@ -9,10 +9,6 @@ class ContinentModel extends Model {
   ContinentModel({required super.text, required super.image});
 }
 
-class CountriesModel extends Model {
-  CountriesModel({required super.text, required super.image});
-}
-
 ContinentModel object1 =
     ContinentModel(text: "Europe", image: 'assets/continents/eu.png');
 ContinentModel object2 =

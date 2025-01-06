@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sabak_18_capitals_test_game/countries_page.dart';
 import 'package:sabak_18_capitals_test_game/features/app_text.dart';
 import 'package:sabak_18_capitals_test_game/features/app_texts.dart';
-import 'package:sabak_18_capitals_test_game/features/model.dart';
+import 'package:sabak_18_capitals_test_game/features/model/continent_model.dart';
 import 'package:sabak_18_capitals_test_game/theme/app_bgc.dart';
 
 class MyHomePage extends StatelessWidget {
@@ -37,8 +37,8 @@ class MyHomePage extends StatelessWidget {
                       }
                     },
                     continent.text,
-                    continent.image,
-                    const Color(0xfff6f6f6),
+                    image: continent.image,
+                    buttonColor: Colors.white,
                   );
                 })),
           )
@@ -65,24 +65,30 @@ class MyHomePage extends StatelessWidget {
 
 class CardWidget extends StatelessWidget {
   const CardWidget(
-    this.text,
+    this.text, {
     this.image,
-    this.color, {
     super.key,
     this.onTap,
+    this.onTapDown,
+    this.onTapCancel,
+    required this.buttonColor,
   });
   final String? text;
   final String? image;
   final void Function()? onTap;
-  final Color color;
+  final void Function(TapDownDetails)? onTapDown;
+  final void Function()? onTapCancel;
+  final Color buttonColor;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
+      onTapDown: onTapDown,
+      onTapCancel: onTapCancel,
       child: Container(
         padding: const EdgeInsets.all(8),
-        color: color,
+        color: buttonColor,
         child: Center(
           child: Column(
             spacing: 5,
