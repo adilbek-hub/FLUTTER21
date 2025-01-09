@@ -63,7 +63,7 @@ class MyHomePage extends StatelessWidget {
   }
 }
 
-class CardWidget extends StatelessWidget {
+class CardWidget extends StatefulWidget {
   const CardWidget(
     this.text, {
     this.image,
@@ -75,26 +75,31 @@ class CardWidget extends StatelessWidget {
   });
   final String? text;
   final String? image;
-  final void Function()? onTap;
-  final void Function(TapDownDetails)? onTapDown;
-  final void Function()? onTapCancel;
+  final VoidCallback? onTap;
+  final Function(TapDownDetails)? onTapDown;
+  final VoidCallback? onTapCancel;
   final Color buttonColor;
 
   @override
+  State<CardWidget> createState() => _CardWidgetState();
+}
+
+class _CardWidgetState extends State<CardWidget> {
+  @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
-      onTapDown: onTapDown,
-      onTapCancel: onTapCancel,
+      onTap: widget.onTap,
+      onTapDown: widget.onTapDown,
+      onTapCancel: widget.onTapCancel,
       child: Container(
         padding: const EdgeInsets.all(8),
-        color: buttonColor,
+        color: widget.buttonColor,
         child: Center(
           child: Column(
             spacing: 5,
             children: [
-              appText.title(text ?? ""),
-              if (image != null) Image.asset(image!)
+              appText.title(widget.text ?? ""),
+              if (widget.image != null) Image.asset(widget.image!)
             ],
           ),
         ),

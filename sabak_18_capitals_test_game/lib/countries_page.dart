@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:sabak_18_capitals_test_game/continents_page.dart';
 import 'package:sabak_18_capitals_test_game/features/model/continent_model.dart';
@@ -11,7 +13,10 @@ class CountriesPage extends StatefulWidget {
 }
 
 class _CountriesPageState extends State<CountriesPage> {
-  Color buttonColor = Colors.blue;
+  int nextIndex = 0;
+  int correctAnswer = 0;
+  int incorrectAnswer = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,15 +30,25 @@ class _CountriesPageState extends State<CountriesPage> {
               image: 'assets/images/lightbulb.png',
               size: 40,
             ),
-            Text('43'),
+            Row(
+              children: [
+                Text(
+                  correctAnswer.toString(),
+                  style: TextStyle(color: Colors.green),
+                ),
+              ],
+            ),
             SizedBox(width: 20),
-            Text('14'),
+            Text(
+              incorrectAnswer.toString(),
+              style: TextStyle(color: Colors.red),
+            ),
           ],
         ),
         actions: [
           Row(
             children: List.generate(
-                3,
+                (incorrectAnswer == 1) ? 2 : 3,
                 (index) => const AssetsImage(
                       image: 'assets/images/heart.png',
                       size: 40,
@@ -45,12 +60,12 @@ class _CountriesPageState extends State<CountriesPage> {
       body: Column(
         spacing: 20,
         children: [
-          LinearProgressIndicator(
+          const LinearProgressIndicator(
             backgroundColor: Colors.grey,
             valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
           ),
-          Text(tests[0].question),
-          AssetsImage(image: tests[0].capitalImage, size: 300),
+          Text(tests[nextIndex].question),
+          AssetsImage(image: tests[nextIndex].capitalImage, size: 300),
           Expanded(
             child: GridView.count(
                 primary: false,
@@ -61,31 +76,61 @@ class _CountriesPageState extends State<CountriesPage> {
                 children: List.generate(4, (int san) {
                   return CardWidget(
                     onTap: () {
+                      if (tests[nextIndex].answers[san].isTrue == true) {
+                        correctAnswer++;
+                      } else {
+                        incorrectAnswer++;
+                      }
+                      if (nextIndex + 1 == tests.length) {
+                        _showMyDialog(correctAnswer, incorrectAnswer);
+                        nextIndex = 0;
+                        correctAnswer = 0;
+                        incorrectAnswer = 0;
+                      }
+
                       setState(() {
-                        buttonColor =
-                            Colors.grey; // Кайра баштапкы түскө кайтуу
+                        nextIndex++;
                       });
                     },
-                    onTapDown: (_) {
-                      setState(() {
-                        buttonColor = tests[0].answers[san].isTrue
-                            ? Colors.green
-                            : Colors.red;
-                      });
-                    },
-                    onTapCancel: () {
-                      setState(() {
-                        buttonColor = Colors
-                            .grey; // Басуу токтотулганда баштапкы түскө кайтуу
-                      });
-                    },
-                    tests[0].answers[san].answer,
-                    buttonColor: buttonColor,
+                    tests[nextIndex].answers[san].answer,
+                    buttonColor: Colors.grey,
                   );
                 })),
           )
         ],
       ),
+    );
+  }
+
+  Future<void> _showMyDialog(int correctAnswer, int inCorrextAnswer) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Сиздин тест жыйынтыгыңыз'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Column(
+                  children: [
+                    Text("Туура жооптор: " + correctAnswer.toString()),
+                    Text("Туура эмес жооптор: " + inCorrextAnswer.toString()),
+                  ],
+                )
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Кайра баштоо'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
