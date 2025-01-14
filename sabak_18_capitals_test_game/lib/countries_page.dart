@@ -1,9 +1,8 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:sabak_18_capitals_test_game/continents_page.dart';
-import 'package:sabak_18_capitals_test_game/features/model/continent_model.dart';
 import 'package:sabak_18_capitals_test_game/features/model/countries_model.dart';
+import 'package:sabak_18_capitals_test_game/features/widgets.dart';
 
 class CountriesPage extends StatefulWidget {
   const CountriesPage({super.key});
@@ -13,19 +12,26 @@ class CountriesPage extends StatefulWidget {
 }
 
 class _CountriesPageState extends State<CountriesPage> {
+  GlobalKey<ScaffoldState> _globalKey = GlobalKey();
   int nextIndex = 0;
   int correctAnswer = 0;
   int incorrectAnswer = 0;
+  int lives = 3;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _globalKey,
+      endDrawer: const EndDrawerWidget(),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Row(
           spacing: 5,
           children: [
-            AssetsImage(image: 'assets/images/previous.png', size: 40),
+            GestureDetector(
+                onTap: () => Navigator.pop(context),
+                child:
+                    AssetsImage(image: 'assets/images/previous.png', size: 40)),
             AssetsImage(
               image: 'assets/images/lightbulb.png',
               size: 40,
@@ -48,13 +54,17 @@ class _CountriesPageState extends State<CountriesPage> {
         actions: [
           Row(
             children: List.generate(
-                (incorrectAnswer == 1) ? 2 : 3,
+                lives,
                 (index) => const AssetsImage(
                       image: 'assets/images/heart.png',
                       size: 40,
                     )),
           ),
-          AssetsImage(image: 'assets/images/mentor.gif', size: 40),
+          GestureDetector(
+              onTap: () {
+                _globalKey.currentState!.openEndDrawer();
+              },
+              child: AssetsImage(image: 'assets/images/mentor.gif', size: 40)),
         ],
       ),
       body: Column(
@@ -76,18 +86,25 @@ class _CountriesPageState extends State<CountriesPage> {
                 children: List.generate(4, (int san) {
                   return CardWidget(
                     onTap: () {
-                      if (tests[nextIndex].answers[san].isTrue == true) {
-                        correctAnswer++;
-                      } else {
-                        incorrectAnswer++;
-                      }
-                      if (nextIndex + 1 == tests.length) {
+                      setState(() {
+                        if (tests[nextIndex].answers[san].isTrue == true) {
+                          correctAnswer++;
+                        } else {
+                          incorrectAnswer++;
+                          if (lives > 0) {
+                            lives--;
+                          }
+                        }
+                      });
+
+                      if (nextIndex + 1 == tests.length || lives == 0) {
                         _showMyDialog(correctAnswer, incorrectAnswer);
-                        nextIndex = 0;
+
+                        nextIndex = -1;
                         correctAnswer = 0;
                         incorrectAnswer = 0;
+                        lives = 3;
                       }
-
                       setState(() {
                         nextIndex++;
                       });
