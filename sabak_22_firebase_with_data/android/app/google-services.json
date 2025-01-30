@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "755629725483",
+    "project_id": "mydb-57d59",
+    "storage_bucket": "mydb-57d59.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:755629725483:android:8645ffc99b6314a7d2576e",
+        "android_client_info": {
+          "package_name": "com.example.sabak_22_firebase_with_data"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdyq2tBobNf9ILbXTHisTrTVOdAq4Glh8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
