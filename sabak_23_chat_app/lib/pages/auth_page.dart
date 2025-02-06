@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sabak_23_chat_app/pages/chat_page.dart';
 import 'package:sabak_23_chat_app/theme/text_styles.dart';
 import 'package:sabak_23_chat_app/widgets/email_password_card.dart';
 import 'package:sabak_23_chat_app/widgets/sign_in_button.dart';
@@ -31,7 +32,13 @@ class AuthPage extends StatelessWidget {
               labelText: 'Password',
               hintTextText: 'Enter your password',
             ),
-            SignInButton(),
+            SignInButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return ChatPage();
+                }));
+              },
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

@@ -4,7 +4,9 @@ import 'package:sabak_23_chat_app/theme/text_styles.dart';
 class SignInButton extends StatelessWidget {
   const SignInButton({
     super.key,
+    this.onPressed,
   });
+  final void Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,7 @@ class SignInButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
       ),
-      onPressed: () {},
+      onPressed: onPressed,
       child: Center(
         child: Text(
           'sign in',

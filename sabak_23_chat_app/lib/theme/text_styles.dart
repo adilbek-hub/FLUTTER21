@@ -14,4 +14,8 @@ class TextStyles {
     fontSize: 14,
     color: Color(0xff6B7280),
   );
+  static const TextStyle label = TextStyle(
+    fontSize: 14,
+    color: Color(0xff6B7280),
+  );
 }
