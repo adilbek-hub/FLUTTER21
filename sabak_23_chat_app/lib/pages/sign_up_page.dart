@@ -1,12 +1,54 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sabak_23_chat_app/pages/chat_page.dart';
+import 'package:sabak_23_chat_app/pages/sign_in_page.dart';
 import 'package:sabak_23_chat_app/theme/text_styles.dart';
 import 'package:sabak_23_chat_app/widgets/email_password_card.dart';
 import 'package:sabak_23_chat_app/widgets/sign_in_button.dart';
 import 'package:sabak_23_chat_app/widgets/with_platform_sign_in_button.dart';
 
-class AuthPage extends StatelessWidget {
-  const AuthPage({super.key});
+class SignUpPAge extends StatefulWidget {
+  const SignUpPAge({super.key});
+
+  @override
+  State<SignUpPAge> createState() => _SignUpPAgeState();
+}
+
+class _SignUpPAgeState extends State<SignUpPAge> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  Future<void> signup() async {
+    try {
+      await auth.createUserWithEmailAndPassword(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim());
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => ChatPage()),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Column(
+          children: [
+            Text(
+                'Сиз мурда регистрация болгон экенисиз, логиниңиз боюнча кирүүңүз керек.}'),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => SignInPAge()),
+                  );
+                },
+                child: Text('Логин барагына өтүү >>')),
+          ],
+        )),
+      );
+
+      print('Login failed: ${e.toString()}');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,36 +63,26 @@ class AuthPage extends StatelessWidget {
               style: TextStyles.headings,
             ),
             Text(
-              'Sign in to continue',
+              'Sign up to continue',
               style: TextStyles.bodyMedium,
             ),
             UserEmailPasswordCard(
+              controller: emailController,
               labelText: 'Email',
               hintTextText: 'Enter your email',
             ),
             UserEmailPasswordCard(
+              controller: passwordController,
               labelText: 'Password',
               hintTextText: 'Enter your password',
             ),
-            SignInButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return ChatPage();
-                }));
-              },
-            ),
+            SignInButton(text: 'Sign Up', onPressed: signup),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   "Don't have an account?",
                   style: TextStyles.bodySmall,
-                ),
-                Text(
-                  "Sign Up",
-                  style: TextStyles.bodySmall.copyWith(
-                    color: Colors.blue,
-                  ),
                 ),
               ],
             ),
